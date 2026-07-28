@@ -79,23 +79,23 @@ export default function WeatherApp() {
     const timeOfDay = getTimeOfDay()
 
     if (timeOfDay === "night") {
-      return "bg-gradient-to-b from-indigo-900 via-purple-900 to-indigo-950"
+      return "bg-gradient-to-b from-indigo-950 via-purple-950 to-slate-950"
     }
 
     switch (weatherType) {
       case "clear":
-        return "bg-gradient-to-b from-sky-400 to-blue-500"
+        return "bg-gradient-to-b from-sky-500 to-blue-600"
       case "clouds":
-        return "bg-gradient-to-b from-blue-300 to-gray-400"
+        return "bg-gradient-to-b from-blue-400 to-slate-600"
       case "rain":
       case "drizzle":
-        return "bg-gradient-to-b from-gray-400 to-gray-600"
+        return "bg-gradient-to-b from-slate-700 to-gray-900"
       case "thunderstorm":
-        return "bg-gradient-to-b from-gray-700 to-gray-900"
+        return "bg-gradient-to-b from-gray-800 to-black"
       case "snow":
-        return "bg-gradient-to-b from-blue-100 to-gray-200"
+        return "bg-gradient-to-b from-blue-200 to-slate-400"
       default:
-        return "bg-gradient-to-b from-blue-400 to-blue-600"
+        return "bg-gradient-to-b from-blue-500 to-indigo-700"
     }
   }
 
@@ -120,7 +120,6 @@ export default function WeatherApp() {
     }
   }
 
-  // Dynamic Background အတွက် ရှိပြီးသား character ပုံများကို ပြန်သုံးခြင်း
   const getBackgroundImage = () => {
     return `url('${getCharacterImage()}')`
   }
@@ -143,9 +142,9 @@ export default function WeatherApp() {
 
   return (
     <div className={`relative min-h-screen flex flex-col items-center transition-colors duration-1000 overflow-hidden ${getBackgroundColor()}`}>
-      {/* Dynamic Blurred Background Layer */}
+      {/* Background Layer: Soft Blur, Better Opacity, Full Center Cover */}
       <div
-        className="absolute inset-0 bg-cover bg-center transition-all duration-1000 scale-110 filter blur-md opacity-30 mix-blend-overlay"
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000 scale-105 filter blur-[2px] opacity-60 mix-blend-soft-light"
         style={{ backgroundImage: getBackgroundImage() }}
       />
 
@@ -163,7 +162,7 @@ export default function WeatherApp() {
             Anime Weather
           </h1>
 
-          <form onSubmit={handleSearch} className="flex gap-2 mb-8">
+          <form onSubmit={handleSearch} className="flex gap-2 mb-8 max-w-xl mx-auto">
             <Input
               type="text"
               placeholder="Search city..."
@@ -203,31 +202,25 @@ export default function WeatherApp() {
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
-                className="grid grid-cols-1 md:grid-cols-2 gap-8"
+                className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center"
               >
+                {/* Character/Scene Display Container - Centered and Properly Fitted */}
                 <motion.div
-                  initial={{ x: -50, opacity: 0 }}
-                  animate={{ x: 0, opacity: 1 }}
+                  initial={{ scale: 0.95, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
                   transition={{ delay: 0.2 }}
-                  className="flex flex-col items-center justify-center"
+                  className="flex items-center justify-center w-full h-72 md:h-96 rounded-2xl overflow-hidden shadow-2xl border border-white/10 bg-black/20 backdrop-blur-sm"
                 >
-                  <motion.img
+                  <img
                     src={getCharacterImage()}
-                    alt="Anime character"
-                    className="h-80 object-contain drop-shadow-xl"
-                    initial={{ y: 10 }}
-                    animate={{ y: -10 }}
-                    transition={{
-                      repeat: Number.POSITIVE_INFINITY,
-                      repeatType: "reverse",
-                      duration: 2,
-                      ease: "easeInOut",
-                    }}
+                    alt="Anime scene"
+                    className="w-full h-full object-cover object-center"
                   />
                 </motion.div>
 
+                {/* Weather Info Cards */}
                 <div className="flex flex-col gap-4">
-                  <Card className="bg-white/10 backdrop-blur-md border-none text-white overflow-hidden">
+                  <Card className="bg-white/15 backdrop-blur-md border-white/10 text-white overflow-hidden shadow-xl">
                     <CardContent className="p-6">
                       <div className="flex items-center mb-4">
                         <MapPin className="mr-2 h-5 w-5 text-white/80" />
@@ -255,7 +248,7 @@ export default function WeatherApp() {
                   </Card>
 
                   <div className="grid grid-cols-2 gap-4">
-                    <Card className="bg-white/10 backdrop-blur-md border-none text-white">
+                    <Card className="bg-white/15 backdrop-blur-md border-white/10 text-white shadow-lg">
                       <CardContent className="p-4 flex items-center">
                         <Droplets className="mr-2 h-5 w-5 text-white/80" />
                         <div>
@@ -265,7 +258,7 @@ export default function WeatherApp() {
                       </CardContent>
                     </Card>
 
-                    <Card className="bg-white/10 backdrop-blur-md border-none text-white">
+                    <Card className="bg-white/15 backdrop-blur-md border-white/10 text-white shadow-lg">
                       <CardContent className="p-4 flex items-center">
                         <Wind className="mr-2 h-5 w-5 text-white/80" />
                         <div>
@@ -275,7 +268,7 @@ export default function WeatherApp() {
                       </CardContent>
                     </Card>
 
-                    <Card className="bg-white/10 backdrop-blur-md border-none text-white">
+                    <Card className="bg-white/15 backdrop-blur-md border-white/10 text-white shadow-lg">
                       <CardContent className="p-4 flex items-center">
                         <Thermometer className="mr-2 h-5 w-5 text-white/80" />
                         <div>
@@ -285,7 +278,7 @@ export default function WeatherApp() {
                       </CardContent>
                     </Card>
 
-                    <Card className="bg-white/10 backdrop-blur-md border-none text-white">
+                    <Card className="bg-white/15 backdrop-blur-md border-white/10 text-white shadow-lg">
                       <CardContent className="p-4 flex items-center">
                         <Thermometer className="mr-2 h-5 w-5 text-white/80" />
                         <div>
